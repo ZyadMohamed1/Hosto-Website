@@ -2,6 +2,7 @@ import React from 'react';
 import '../App.css';
 import { Button } from './Button';
 import './HeroSection.css';
+import {Link} from 'react-router-dom';
 
 function HeroSection() {
   return (
@@ -16,14 +17,15 @@ function HeroSection() {
         >
           SIGN UP
         </Button>
+        <Link to='/questions'>
         <Button
           className='btns'
           buttonStyle='btn--primary'
           buttonSize='btn--large'
-          onClick={console.log('hey')}
         >
           QUESTIONS
         </Button>
+        </Link>
       </div>
     </div>
   );

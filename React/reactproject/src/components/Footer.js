@@ -53,7 +53,7 @@ function Footer() {
               <i class="fas fa-notes-medical" />
             </Link>
           </div>
-          <small class='website-rights'>WebsiteName © 2020</small>
+          <small class='website-rights'>WebsiteName © 2021</small>
           <div class='social-icons'>
             <Link
               class='social-icon-link facebook'

@@ -6,6 +6,8 @@ import HomePage from './components/Pages/HomePage'
 import Products from './components/Pages/Products';
 import Questions from './components/Pages/Questions';
 import SignUp from './components/Pages/SignUp';
+import Form from './components/Login/Form';
+
 
 
 
@@ -22,6 +24,7 @@ function App() {
       </switch>
       </Router>
 
+      {/* <Form /> */}
     </>
   );
 }

@@ -2,6 +2,9 @@ import React from 'react'
 import useForm from './useForm'
 import validate from './validateInfo'
 import './Form.css'
+import './FormLogin'    
+import { Route } from 'react-router-dom'
+import FormLogin from './FormLogin'
 
 const FormSignup = ({submitForm}) => {
     const { handleChange, values, handleSubmit, errors } = useForm(submitForm, validate);

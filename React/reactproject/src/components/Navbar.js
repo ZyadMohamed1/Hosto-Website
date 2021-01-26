@@ -34,6 +34,12 @@ function Navbar() {
           <div className='menu-icon' onClick={handleClick}>
             <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
           </div>
+          {/* New code */}
+          <div className="header__search">
+            <input className="header__searchInput" type="text" />
+            <i class="fas fa-search" />
+            {/* Search Logo */}
+          </div>
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
             <li className='nav-item'>
               <Link to='/' className='nav-links' onClick={closeMobileMenu}>
@@ -70,6 +76,11 @@ function Navbar() {
             </li>
           </ul>
           {button && <Button buttonStyle='btn--outline'>SIGN UP</Button>}
+
+          <Link to="/checkout">
+          <i class="fas fa-shopping-cart" />
+          </Link>
+
         </div>
       </nav>
     </>

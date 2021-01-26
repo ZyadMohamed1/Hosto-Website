@@ -34,6 +34,32 @@
     font-size: 1.8rem;
   }
   
+  /* Search header */
+  .header__search{
+    margin-left: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header__searchInput{
+    height: 30px;
+    width: 250px;
+  }
+
+  .fa-search{
+    margin-left: 10px;
+    color: rgb(196, 232, 248);
+  }
+  
+  /* cart icon */
+  .fa-shopping-cart{
+    margin-left: 50px;
+    color: white;
+    font-size: 1.7rem;
+    
+  }
+
   .nav-menu {
     display: grid;
     grid-template-columns: repeat(4, auto);

@@ -10,7 +10,6 @@ function HomePage(){
         <>
             <HeroSection />
             <Cards />
-            <Footer />
         </>
     )
 }

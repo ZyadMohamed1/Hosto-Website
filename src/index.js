@@ -1,6 +1,7 @@
 const express = require('express');
 const userRouter = require('./controllers/userController');
 const doctorRouter = require('./controllers/doctorController');
+const commonRouters = require('./controllers/commonControllers');
 
 require('dotenv').config();
 
@@ -10,6 +11,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(userRouter);
 app.use(doctorRouter);
+app.use(commonRouters);
 
 async function main() {
 

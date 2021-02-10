@@ -1,6 +1,12 @@
 import React from "react";
 import "./products.css";
 import { useStateValue } from "./StateProvider";
+import {
+  AwesomeButton,
+  AwesomeButtonProgress,
+  AwesomeButtonSocial,
+} from 'react-awesome-button';
+
 
 function ProductShown({ id, title, image, price, }) {
   const [{ basket }, dispatch] = useStateValue();
@@ -29,9 +35,15 @@ function ProductShown({ id, title, image, price, }) {
       </div>
 
       <img src={image} alt="" />
+      
+<AwesomeButton type="primary">
+  
+      <button className="aws-btn" onClick={addToBasket}>Add to Wishlist</button>
+</AwesomeButton >
+<AwesomeButtonProgress type="secondary">
 
-      <button onClick={addToBasket}>Add to Wishlist</button>
       <button>Details</button>
+</AwesomeButtonProgress>
     </div>
   );
 }

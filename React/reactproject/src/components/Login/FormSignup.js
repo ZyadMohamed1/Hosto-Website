@@ -120,7 +120,7 @@ const FormSignup = ({submitForm}) => {
                 </div>
                 <button className="form-input-btn" type="submit">Sign Up</button>
                 <span className="form-input-login">
-                    Already has an account? Login <a href="#">Here</a>
+                    Already has an account? Login <a href="login-page">Here</a>
                 </span>
             </form>
         </div>

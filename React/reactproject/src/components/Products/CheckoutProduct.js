@@ -1,6 +1,11 @@
 import React from 'react';
 import './CheckoutProduct.css'
 import { useStateValue } from "./StateProvider";
+import {
+    AwesomeButton,
+    AwesomeButtonProgress,
+    AwesomeButtonSocial,
+  } from 'react-awesome-button';
 
 function CheckoutProduct({ id, image, title, price, }) {
     const [{ basket }, dispatch] = useStateValue();
@@ -23,9 +28,13 @@ function CheckoutProduct({ id, image, title, price, }) {
                     <small>$</small>
                     <strong>{price}</strong>
                 </p>
-                
+                <AwesomeButton type="primary">
+
                     <button onClick={removeFromBasket}>Remove from Wishlist</button>
+                </AwesomeButton>
+                <AwesomeButton type="primary">
                     <button>Details</button>
+                </AwesomeButton>
             </div>
         </div>
     )

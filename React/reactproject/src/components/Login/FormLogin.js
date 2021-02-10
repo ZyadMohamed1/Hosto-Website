@@ -2,12 +2,20 @@ import React from 'react'
 import useForm from './useForm'
 import validate from './validateInfo'
 import './Form.css'
+import { Link } from 'react-router-dom'
 
 
 const FormLogin = ({submitForm}) => {
     const { handleChange, values, handleSubmit, errors } = useForm(submitForm, validate);
 
+
     return (
+        <>
+         <div className="form-container">
+         <span className="close-btn">x</span>
+            <div className="form-content-left">
+                <img src="/images/Doctors.png" alt="medical-image" className="form-img" />
+            </div>
         <div className="form-content-right">
         <form className="form" onSubmit={handleSubmit}>
             <h1>Enter your Email and password.</h1>
@@ -41,9 +49,15 @@ const FormLogin = ({submitForm}) => {
                 />
                 {errors.password && <p>{errors.password}</p>}
             </div>
-            <button className="form-input-btn" type="submit">Log In</button>
+            <button   className="form-input-btn" type="submit">
+            <Link to="/" style={{ textDecoration: 'none' }} >
+                Log In
+                </Link>
+                </button>
         </form>
     </div>
+    </div>
+   </>
     )
 }
 

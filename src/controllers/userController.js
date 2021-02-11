@@ -1,24 +1,40 @@
-const express = require('express');
-const asyncHandler = require('express-async-handler');
-const firebase = require('../config/firebaseConfig');
-const bcrypt = require('bcrypt');
-
 require('firebase/firestore');
+const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcrypt');
+const firebase = require('../config/firebaseConfig');
+const { emailValidation } = require('../signUp methods/emailValidation');
+const { generateOTP } = require('../signUp methods/otpGeneration');
 
-const router = express.Router();
 const db = firebase.firestore();
 
-// midlewares
-router.use(express.json());
-
-// user endpoints
-router.post("/users//signUp", asyncHandler(async (req, res) => {
+const userController = {
+  createNewUser: asyncHandler(async (req, res) => {
     const user = req.body;
-    user.password = await bcrypt.hash(req.body.password, 10);
+    const snapshot = await db.collection('users').where('email', '==', user.email).get();
+
+    if (!emailValidation(user.email)) {
+      res.status(400).json('Wrong email configuration.');
+    }
+    if (!snapshot.empty) {
+      res.json('Email is already in use.');
+    }
+
+    const code = await generateOTP(user.email);
+
+    user.password = await bcrypt.hash(user.password, 10);
     user.role = 2;
+    user.IsActive = false;
+    user.OTP = code.OTP;
+    user.OTPCreationTime = code.OTPCreationTime;
 
-    await db.collection('users').add(user);
-    res.sendStatus(201);
-}));
+    code.transport.sendMail(code.mail, async (err) => {
+      if (err) {
+        res.status(400).json(err);
+      }
+      await db.collection('users').add(user);
+      res.sendStatus(201);
+    });
+  }),
+};
 
-module.exports = router;
+module.exports = userController;

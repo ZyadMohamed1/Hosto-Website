@@ -8,7 +8,7 @@ const { generateOTP } = require('../signUp methods/otpGeneration');
 const db = firebase.firestore();
 
 const doctorController = {
-  createNewDoctor: asyncHandler(async (req, res) => {
+    createNewDoctor: asyncHandler(async (req, res) => {
     const doctor = req.body;
     const snapshot = await db.collection('users').where('email', '==', doctor.email).get();
 
@@ -19,14 +19,14 @@ const doctorController = {
       res.json('Email is already in use.');
     }
 
-    const code = await generateOTP(doctor.email);
-
     doctor.password = await bcrypt.hash(doctor.password, 10);
     doctor.role = 1;
     doctor.approved = false;
     if (req.file !== undefined) {
       doctor.image_URL = req.file.path;
     }
+
+    const code = await generateOTP(doctor.email);
     doctor.IsActive = false;
     doctor.OTP = code.OTP;
     doctor.OTPCreationTime = code.OTPCreationTime;

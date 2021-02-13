@@ -19,10 +19,10 @@ const userController = {
       res.json('Email is already in use.');
     }
 
-    const code = await generateOTP(user.email);
-
     user.password = await bcrypt.hash(user.password, 10);
     user.role = 2;
+    
+    const code = await generateOTP(user.email);
     user.IsActive = false;
     user.OTP = code.OTP;
     user.OTPCreationTime = code.OTPCreationTime;

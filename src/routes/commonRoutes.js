@@ -9,6 +9,7 @@ router.post('/confirmAccount', commonController.confirmAccount);
 router.post('/sendOTP', commonController.sendNewOTP);
 router.patch('/resetPassword', authenticateToken, commonController.resetPassword);
 router.patch('/forgetPassword', commonController.forgetPassword);
-router.post('/PostQuestion', authenticateToken, commonController.PostQuestion);
+router.post('/postQuestion', authenticateToken, commonController.postQuestion);
+router.post('/postComment/:postID', authenticateToken, commonController.postComment);
 
 module.exports = router;

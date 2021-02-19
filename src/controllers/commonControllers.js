@@ -38,7 +38,6 @@ const commonController = {
         name: `${doc.data().firstName} ${doc.data().firstName}`,
         userName: doc.data().userName,
         email: doc.data().email,
-        phoneNumber: doc.data().phoneNumber,
         role: doc.data().role,
       };
 
@@ -52,7 +51,7 @@ const commonController = {
     const snapshot = await db.collection('users').where('email', '==', confirmData.email).get();
     if (snapshot.empty) {
       res.status(401).json('Wrong email.');
-    return;
+      return;
     }
 
     snapshot.forEach(async (doc) => {
@@ -82,7 +81,7 @@ const commonController = {
     const snapshot = await db.collection('users').where('email', '==', data.email).get();
 
     if (snapshot.empty) {
-      res.json('Wrong email.');
+      res.status(401).json('Wrong email.');
       return;
     }
 
@@ -157,22 +156,42 @@ const commonController = {
     });
   }),
 
-  PostQuestion: asyncHandler(async (req, res) => {
+  postQuestion: asyncHandler(async (req, res) => {
     const { user } = req;
-    const Post = req.body
+    const post = req.body;
     const snapshot = await db.collection('users').where('email', '==', user.email).get();
-    if (snapshot.empty) {
-      res.status(401).json('Wrong email.');
-      return;
-    }
+
     const OTP = OTPGenerator.generate(3, { upperCase: false, specialChars: false });
-    const PostCreationTime = firebase.firestore.Timestamp.now()
+    const postCreationTime = firebase.firestore.Timestamp.now();
+
     snapshot.forEach(async (doc) => {
-      Post.ID = user.userName+PostCreationTime+OTP;
-      Post.CreatedBy = doc.id
-      Post.created_at = PostCreationTime
-      await db.collection('posts').add(Post);
-      res.sendStatus(200);
+      post.ID = user.userName + postCreationTime + OTP;
+      post.created_by = doc.id;
+      post.created_at = postCreationTime;
+      await db.collection('posts').add(post);
+      res.sendStatus(201);
+    });
+  }),
+
+  postComment: asyncHandler(async (req, res) => {
+    const { user } = req;
+    const comment = req.body;
+    const { postID } = req.params;
+    const postSnapshot = await db.collection('posts').where('ID', '==', postID).get();
+    const snapshot = await db.collection('users').where('email', '==', user.email).get();
+
+    snapshot.forEach(async (doc) => {
+      postSnapshot.forEach(async (postDoc) => {
+        if ((user.role !== 1) && (doc.id !== postDoc.data().created_by)) {
+          res.sendStatus(403);
+          return;
+        }
+
+        comment.created_by = doc.id;
+        comment.created_at = firebase.firestore.Timestamp.now();
+        await db.collection('posts').doc(postDoc.id).collection('comments').add(comment);
+        res.sendStatus(201);
+      });
     });
   }),
 

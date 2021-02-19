@@ -26,7 +26,7 @@ const userController = {
       return;
     }
 
-    user.password = await bcrypt.hash(user.password, 10);
+     user.password = await bcrypt.hash(user.password, 10);
     user.role = 2;
     
     const code = await generateOTP(user.email);

@@ -11,12 +11,19 @@ const userController = {
   createNewUser: asyncHandler(async (req, res) => {
     const user = req.body;
     const snapshot = await db.collection('users').where('email', '==', user.email).get();
+    const snapshot1 = await db.collection('users').where('email', '==', user.userName ).get();
 
     if (!emailValidation(user.email)) {
       res.status(400).json('Wrong email configuration.');
+      return;
     }
     if (!snapshot.empty) {
       res.json('Email is already in use.');
+      return;
+    }
+    if (!snapshot1.empty) {
+      res.json('User Name is already in use.');
+      return;
     }
 
     user.password = await bcrypt.hash(user.password, 10);

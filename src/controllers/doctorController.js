@@ -11,12 +11,19 @@ const doctorController = {
     createNewDoctor: asyncHandler(async (req, res) => {
     const doctor = req.body;
     const snapshot = await db.collection('users').where('email', '==', doctor.email).get();
+    const snapshot1 = await db.collection('users').where('email', '==', doctor.userName).get();
 
     if (!emailValidation(doctor.email)) {
       res.status(400).json('Wrong email configuration.');
+      return;
     }
     if (!snapshot.empty) {
       res.json('Email is already in use.');
+      return;
+    }
+    if (!snapshot1.empty) {
+        res.json('User Name is already in use.');
+        return;
     }
 
     doctor.password = await bcrypt.hash(doctor.password, 10);

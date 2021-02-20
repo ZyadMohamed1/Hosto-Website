@@ -18,11 +18,11 @@ const userController = {
       return;
     }
     if (!snapshot.empty) {
-      res.json('Email is already in use.');
+      res.status(400).json('Email is already in use.');
       return;
     }
     if (!snapshot1.empty) {
-      res.json('User Name is already in use.');
+      res.status(400).json('Username is already in use.');
       return;
     }
 

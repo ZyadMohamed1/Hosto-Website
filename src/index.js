@@ -1,7 +1,8 @@
 const express = require('express');
 const userRouter = require('./routes/userRoutes');
 const doctorRouter = require('./routes/doctorRoutes');
-const commonRouters = require('./routes/commonRoutes');
+const accountsRouter = require('./routes/accountsRoutes');
+const postsRouter = require('./routes/postsRoutes');
 
 require('dotenv').config();
 
@@ -13,7 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(userRouter);
 app.use(doctorRouter);
-app.use(commonRouters);
+app.use(accountsRouter);
+app.use(postsRouter);
 
 app.use('/public', express.static('public'));
 

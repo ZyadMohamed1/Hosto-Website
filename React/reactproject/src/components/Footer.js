@@ -49,7 +49,7 @@ function Footer() {
         <div class='social-media-wrap'>
           <div class='footer-logo'>
             <Link to='/' className='social-logo'>
-              WebsiteName
+              Hosto
               <i class="fas fa-notes-medical" />
             </Link>
           </div>

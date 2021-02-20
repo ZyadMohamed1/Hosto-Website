@@ -41,8 +41,9 @@ function ProductShown({ id, title, image, price, }) {
       <button className="aws-btn" onClick={addToBasket}>Add to Wishlist</button>
 </AwesomeButton >
 <AwesomeButtonProgress type="secondary">
-
+<a href={`/product/Details`}> 
       <button>Details</button>
+      </a>
 </AwesomeButtonProgress>
     </div>
   );

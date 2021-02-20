@@ -10,6 +10,7 @@ function Products(){
                 <img className ="product__image" src="./images/Medical.jpg" alt=""/>
 
                 <div className="product__row">
+                   
                     <ProductShown 
                     title='item 1 testing'
                     price={150}

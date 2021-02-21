@@ -47,13 +47,38 @@ const postsController = {
   }),
 
   getAllPosts: asyncHandler(async (req, res) => {
-    var snapshot = await db.collection('posts').orderBy('created_at').get();
-    const posts = [];
+    const snapshot = await db.collection('posts').orderBy('created_at').get();
     const postsDoc = [];
-    var user = '';
-
+    
     snapshot.forEach( doc => postsDoc.push(doc) );
     
+    const posts = await getPosts(postsDoc);
+    res.json(posts);
+  }),
+
+  getUserPosts: asyncHandler(async (req, res) => {
+    const { user } = req;
+    const postsDoc = [];
+    var snapshot;
+    var userID;
+    
+    snapshot = await db.collection('users').where('email', '==', user.email).get();
+    snapshot.forEach( doc => { userID = doc.id; });
+    
+    snapshot = await db.collection('posts').where('created_by', '==', userID).get();
+    snapshot.forEach( doc => postsDoc.push(doc) );
+    
+    const posts = await getPosts(postsDoc);
+    posts.sort((a, b) => a.created_at - b.created_at);
+    res.json(posts);
+  }),
+};
+
+const getPosts = async (postsDoc) => {
+  var snapshot;
+  var user;
+  const posts = [];
+
     for (var i = 0; i < postsDoc.length; i++) {
       snapshot = await db.collection('posts').doc(postsDoc[i].id).collection('comments').orderBy('created_at').get();
       const commentsDoc = [];
@@ -78,13 +103,8 @@ const postsController = {
         comments: comments,
       });
     }
-    
-    res.json(posts);
-  }),
 
-  getUserPosts: asyncHandler(async (req, res) => {
-    
-  }),
+  return posts;
 };
 
 module.exports = postsController;

@@ -46,6 +46,45 @@ const postsController = {
     });
   }),
 
+  getAllPosts: asyncHandler(async (req, res) => {
+    var snapshot = await db.collection('posts').orderBy('created_at').get();
+    const posts = [];
+    const postsDoc = [];
+    const commentsDoc = [];
+    var user = '';
+
+    snapshot.forEach( doc => postsDoc.push(doc) );
+    
+    for (var i = 0; i < postsDoc.length; i++) {
+      snapshot = await db.collection('posts').doc(postsDoc[i].id).collection('comments').orderBy('created_at').get();
+      snapshot.forEach( doc => commentsDoc.push(doc) );
+      
+      const comments = [];
+      for (var j = 0; j < commentsDoc.length; j++) {
+        user = await db.collection('users').doc(commentsDoc[j].data().created_by).get();
+        comments.push({
+          created_by: user.data().userName,
+          created_at: commentsDoc[j].data().created_at.toDate(),
+          body: commentsDoc[j].data().commentBody,
+        });
+      }
+
+      user = await db.collection('users').doc(postsDoc[i].data().created_by).get();
+      posts.push({
+        ID: postsDoc[i].data().ID,
+        created_by: user.data().userName,
+        created_at: postsDoc[i].data().created_at.toDate(),
+        body: postsDoc[i].data().questionBody,
+        comments: comments,
+      });
+    }
+    
+    res.json(posts);
+  }),
+
+  getUserPosts: asyncHandler(async (req, res) => {
+    
+  }),
 };
 
 module.exports = postsController;

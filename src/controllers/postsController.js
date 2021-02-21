@@ -50,13 +50,13 @@ const postsController = {
     var snapshot = await db.collection('posts').orderBy('created_at').get();
     const posts = [];
     const postsDoc = [];
-    const commentsDoc = [];
     var user = '';
 
     snapshot.forEach( doc => postsDoc.push(doc) );
     
     for (var i = 0; i < postsDoc.length; i++) {
       snapshot = await db.collection('posts').doc(postsDoc[i].id).collection('comments').orderBy('created_at').get();
+      const commentsDoc = [];
       snapshot.forEach( doc => commentsDoc.push(doc) );
       
       const comments = [];
